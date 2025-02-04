@@ -1,4 +1,6 @@
+// /functions/api/dynamic-content.js
 // 通过环境变量获取动态内容
+
 export async function onRequest(context) {
     try {
       // 从环境变量读取内容
