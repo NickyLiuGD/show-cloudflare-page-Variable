@@ -6,7 +6,7 @@ export async function onRequest(context) {
       
       return new Response(dynamicContent, {
         headers: {
-          "Content-Type": "text/plain",
+          "Content-Type": "text/plain; charset=UTF-8",
           // 可选：解决CORS问题
           "Access-Control-Allow-Origin": "*"
         }
