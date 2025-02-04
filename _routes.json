@@ -1,7 +1,10 @@
 {
   "version": 1,
   "include": ["/*"],
-  "exclude": ["/api/*"],
+  "exclude": [
+      "/api/*",
+      "/get_env/*"  // 新增排除规则
+  ],
   "routes": [
       {
           "path": "/get_env/*",
