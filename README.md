@@ -14,3 +14,13 @@ Cloudflare Pages 会自动：
 
 - 使用 npm run build 生成静态文件到 public/
 - 执行自定义脚本，比如路由脚本
+## 代码结构
+```
+your-repo/
+├── functions/
+│   └── api/
+│       └── dynamic-content.js
+├── public/
+│   └── index.html  # 这是你需要修改的文件
+└── cloudflare-pages.yml
+```
