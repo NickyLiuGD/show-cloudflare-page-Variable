@@ -5,7 +5,6 @@
       "/assets/*"
   ],
   "exclude": [
-      "/api/*",
       "/get_env/*"
   ],
   "routes": [
