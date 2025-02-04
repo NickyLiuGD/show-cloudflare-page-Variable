@@ -1,4 +1,6 @@
 version: 1
 build:
   command:
-    - sed -i "s/%NAME%/${NAME}/g" index.html
+    - echo "Generating worker.js..."
+    - echo "addEventListener('fetch', (event) => { event.respondWith(handleRequest(event.request)); });" > worker.js
+    - echo "async function handleRequest(request) { const dynamicContent = '${DYNAMIC_CONTENT}'; return new Response(dynamicContent, { headers: { 'Content-Type': 'text/plain' } }); }" >> worker.js
