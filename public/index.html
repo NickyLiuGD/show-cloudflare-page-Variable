@@ -1,88 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>环境变量演示</title>
-    <style>
-        /* 基础样式 */
-        .env-container {
-            margin: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            max-width: 600px;
-        }
-        button {
-            padding: 8px 16px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #result {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-        }
-        .loading {
-            display: none; /* 默认隐藏加载状态 */
-            color: #666;
-        }
-    </style>
+    <title>显示环境变量</title>
 </head>
 <body>
-    <div class="env-container">
-        <h2>环境变量查询</h2>
-        <button onclick="getDeepseekApiKey()">获取 DEEPSEEK_API_KEY</button>
-        <div class="loading" id="loading">加载中...</div>
-        <div id="result"></div>
-    </div>
+    <h1>环境变量 DEEPSEEK_API_KEY 的值：</h1>
+    <!-- 显示环境变量的容器 -->
+    <div id="env-value" style="font-weight: bold; color: blue;"></div>
 
     <script>
-        async function getDeepseekApiKey() {
-            const resultDiv = document.getElementById('result');
-            const loadingDiv = document.getElementById('loading');
-            
-            try {
-                // 显示加载状态
-                loadingDiv.style.display = 'block';
-                resultDiv.textContent = '';
-
-                // 发送 POST 请求到 /get_env 路由
-                const response = await fetch('/get_env', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        envParam: 'deepseek_api_key' // 硬编码参数
-                    }),
-                });
-
-                // 处理响应
+        // 页面加载完成后自动发送请求
+        window.onload = function() {
+            // 发起 POST 请求到 /get_env
+            fetch('/get_env', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ envParam: "deepseek_api_key" })  // 硬编码环境变量名
+            })
+            .then(response => {
                 if (!response.ok) {
-                    throw new Error(`请求失败: ${response.status}`);
+                    throw new Error(`HTTP 错误 ${response.status}`);
                 }
-
-                const envValue = await response.text();
-                resultDiv.textContent = `DEEPSEEK_API_KEY 的值是: ${envValue}`;
-                resultDiv.style.color = 'green';
-
-            } catch (error) {
-                resultDiv.textContent = `错误: ${error.message}`;
-                resultDiv.style.color = 'red';
-
-            } finally {
-                // 隐藏加载状态
-                loadingDiv.style.display = 'none';
-            }
-        }
+                return response.text();
+            })
+            .then(value => {
+                // 显示环境变量值
+                document.getElementById('env-value').textContent = value;
+            })
+            .catch(error => {
+                // 显示错误信息
+                document.getElementById('env-value').textContent = `无法获取环境变量: ${error.message}`;
+                document.getElementById('env-value').style.color = 'red';
+            });
+        };
     </script>
 </body>
 </html>
