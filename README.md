@@ -24,4 +24,4 @@ your-repo/
 │   └── index.html  # 这是你需要修改的文件
 └── cloudflare-pages.yml
 ```
-## worker路由
+## worker路由</api/dynamic-content>
