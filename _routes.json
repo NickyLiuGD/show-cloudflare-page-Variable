@@ -1,10 +1,17 @@
 {
   "version": 1,
-  "exclude": ["/api/*", "/get_env/*"], // 确保排除静态文件匹配
+  "include": [
+      "*.html",
+      "/assets/*"
+  ],
+  "exclude": [
+      "/api/*",
+      "/get_env/*"
+  ],
   "routes": [
-    {
-      "path": "/get_env/:envParam*", // 使用命名参数捕获路径
-      "function": "get_env"
-    }
+      {
+          "path": "/get_env/*",
+          "function": "get_env"
+      }
   ]
 }
