@@ -2,7 +2,7 @@
 export async function onRequest(context) {
     try {
       // 从环境变量读取内容
-      const dynamicContent = context.env.DYNAMIC_CONTENT || "Default dynamic content";
+      const dynamicContent = context.env.DEEKSEEK_API_KEY || "Default dynamic content";
       
       return new Response(dynamicContent, {
         headers: {
