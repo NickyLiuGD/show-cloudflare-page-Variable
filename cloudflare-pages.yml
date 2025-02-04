@@ -1,0 +1,6 @@
+version: 1
+routes:
+  - '/':
+    function: 'api/dynamic-content'
+  - '/api/dynamic-content/*':
+    function: 'api/dynamic-content'
