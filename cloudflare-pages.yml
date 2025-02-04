@@ -4,3 +4,7 @@ build:
     - echo "Generating worker.js..."
     - echo "addEventListener('fetch', (event) => { event.respondWith(handleRequest(event.request)); });" > worker.js
     - echo "async function handleRequest(request) { const dynamicContent = '${DYNAMIC_CONTENT}'; return new Response(dynamicContent, { headers: { 'Content-Type': 'text/plain' } }); }" >> worker.js
+    - mkdir -p public
+    - mv worker.js public/worker.js
+  routes:
+    - '/api/dynamic-content/*'
