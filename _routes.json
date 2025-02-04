@@ -1,15 +1,18 @@
 {
   "version": 1,
-  "include": ["/index.html", "/assets/*"],  // 明确限定静态文件范围
-  "exclude": ["/*"],                       // 排除所有路径的静态文件托管
+  "include": [
+      "*.html",
+      "/assets/*"
+  ],
+  "exclude": [
+      "/api/*",
+      "/get_env/*"
+  ],
   "routes": [
-    {
-      "path": "/get_env/:envParam*",       // 动态参数匹配
-      "function": "get_env"
-    },
-    {
-      "path": "/api/*",
-      "function": "api"
-    }
+      {
+          "path": "/get_env",
+          "method": "POST",
+          "function": "get_env"
+      }
   ]
 }
