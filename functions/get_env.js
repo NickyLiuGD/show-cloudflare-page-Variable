@@ -1,4 +1,6 @@
 export async function onRequest(context) {
+  console.log('Params:', context.params);
+
   try {
     // 正确捕获动态路由参数 "*"
     const { 0: envParam } = context.params; // 关键修改
