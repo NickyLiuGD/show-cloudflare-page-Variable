@@ -21,7 +21,18 @@ your-repo/
 │   └── api/
 │       └── dynamic-content.js
 ├── public/
-│   └── index.html  # 这是你需要修改的文件
-└── cloudflare-pages.yml
+│   └── index.html
+└── _routes.json
 ```
-## worker路由</api/dynamic-content>
+## worker路由设置文件:`_routes.json`
+```json
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": ["/api/*"]
+}
+```
+- `"include": ["/*"]` 告诉Cloudflare Pages，默认情况下，所有路径都应首先尝试匹配静态文件。
+- `"exclude": ["/api/*"]` 告诉Cloudflare Pages，特定路径（以 `/api/` 开头）应直接由API函数处理，不寻找静态文件。
+## 路由
+</api/dynamic-content>
