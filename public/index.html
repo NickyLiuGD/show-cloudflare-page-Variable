@@ -1,0 +1,14 @@
+<script>
+    async function fetchDynamicContent() {
+      try {
+        const response = await fetch('/api/dynamic-content');
+        const content = await response.text();
+        document.getElementById('dynamic-content').textContent = content;
+      } catch (error) {
+        console.error('Fetch error:', error);
+        document.getElementById('dynamic-content').textContent = '内容加载失败';
+      }
+    }
+    fetchDynamicContent();
+    </script>
+    
