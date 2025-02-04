@@ -134,3 +134,123 @@ export async function onRequest(context) {
 3. **部署验证**  
    - 部署后访问页面，检查控制台网络请求是否成功（状态码 200）。  
    - 若失败，可通过 `wrangler tail` 查看实时日志。
+  
+
+
+---
+
+## **`get_env` POST 接口文档**
+
+#### **1. 功能说明**
+通过 POST 请求查询指定环境变量的值。环境变量需提前在 Cloudflare Pages 项目中配置。
+
+---
+
+#### **2. 接口地址**
+```bash
+POST /get_env
+```
+
+---
+
+#### **3. 请求格式**
+- **Headers**  
+  ```json
+  {
+    "Content-Type": "application/json"
+  }
+  ```
+  
+- **Body**  
+  ```json
+  {
+    "envParam": "环境变量名（小写或混合大小写）"
+  }
+  ```
+  **示例**：  
+  ```json
+  {
+    "envParam": "deepseek_api_key"
+  }
+  ```
+
+---
+
+#### **4. 响应格式**
+##### **成功响应**
+- **状态码**：`200 OK`
+- **Body**：环境变量值的纯文本  
+  ```text
+  sk-123456789abcdef
+  ```
+
+##### **错误响应**
+| 状态码         | 错误原因                        | Body 示例                                    |
+|----------------|-------------------------------|---------------------------------------------|
+| `400 Bad Request` | 未提供 `envParam` 参数          | `环境变量名参数缺失`                          |
+| `404 Not Found`   | 环境变量未定义                  | `环境变量 DEEPSEEK_API_KEY 未定义`            |
+| `405 Method Not Allowed` | 非 POST 方法调用       | `仅支持 POST 请求`                            |
+| `500 Internal Server Error` | 服务器内部错误      | `服务器错误: JSON 解析失败`                   |
+
+---
+
+#### **5. 调用示例**
+##### **使用 cURL**
+```bash
+curl -X POST https://your-site.pages.dev/get_env \
+-H "Content-Type: application/json" \
+-d '{"envParam": "deepseek_api_key"}'
+```
+
+##### **使用 JavaScript（前端）**
+```javascript
+fetch('/get_env', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ envParam: 'deepseek_api_key' })
+})
+.then(response => response.text())
+.then(value => console.log('环境变量值:', value))
+.catch(error => console.error('错误:', error));
+```
+
+---
+
+#### **6. 环境变量配置**
+1. 登录 Cloudflare Pages 控制台。  
+2. 进入项目设置 → **Environment Variables**。  
+3. 添加环境变量，名称需全大写（如 `DEEPSEEK_API_KEY`）。  
+
+---
+
+#### **7. 注意事项**
+- **大小写敏感**：  
+  请求中的 `envParam` 会自动转为大写（如 `deepseek_api_key` → `DEEPSEEK_API_KEY`）。
+- **安全性**：  
+  避免在前端暴露敏感环境变量，必要时添加访问控制（如 IP 白名单）。
+- **跨域问题（CORS）**：  
+  若需跨域调用，在响应头中添加：  
+  ```http
+  Access-Control-Allow-Origin: *
+  ```
+
+---
+
+#### **8. 路由配置参考**
+确保 `_routes.json` 包含以下规则：  
+```json
+{
+  "routes": [
+    {
+      "path": "/get_env",
+      "method": "POST",
+      "function": "get_env"
+    }
+  ]
+}
+```
+
+---
+
+**文档版本**：1.0  
+**最后更新**：2023-10-15
