@@ -14,7 +14,7 @@
     <script>
         async function fetchDynamicContent() {
             try {
-                const response = await fetch('/api/dynamic-content');
+                const response = await fetch('./api/dynamic-content');
                 const content = await response.text();
                 document.getElementById('dynamic-content').textContent = content;
             } catch (error) {
