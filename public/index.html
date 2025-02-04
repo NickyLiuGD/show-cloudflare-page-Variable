@@ -1,29 +1,88 @@
-<!-- /public/index.html -->
- 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>动态内容示例</title>
+    <title>环境变量演示</title>
+    <style>
+        /* 基础样式 */
+        .env-container {
+            margin: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            max-width: 600px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .loading {
+            display: none; /* 默认隐藏加载状态 */
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <h1>动态内容示例</h1>
-    <div id="dynamic-content"></div>
+    <div class="env-container">
+        <h2>环境变量查询</h2>
+        <button onclick="getDeepseekApiKey()">获取 DEEPSEEK_API_KEY</button>
+        <div class="loading" id="loading">加载中...</div>
+        <div id="result"></div>
+    </div>
 
     <script>
-        async function fetchDynamicContent() {
+        async function getDeepseekApiKey() {
+            const resultDiv = document.getElementById('result');
+            const loadingDiv = document.getElementById('loading');
+            
             try {
-                const response = await fetch('./api/dynamic-content');
-                const content = await response.text();
-                document.getElementById('dynamic-content').textContent = content;
+                // 显示加载状态
+                loadingDiv.style.display = 'block';
+                resultDiv.textContent = '';
+
+                // 发送 POST 请求到 /get_env 路由
+                const response = await fetch('/get_env', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        envParam: 'deepseek_api_key' // 硬编码参数
+                    }),
+                });
+
+                // 处理响应
+                if (!response.ok) {
+                    throw new Error(`请求失败: ${response.status}`);
+                }
+
+                const envValue = await response.text();
+                resultDiv.textContent = `DEEPSEEK_API_KEY 的值是: ${envValue}`;
+                resultDiv.style.color = 'green';
+
             } catch (error) {
-                console.error('获取动态内容失败:', error);
-                document.getElementById('dynamic-content').textContent = '动态内容加载失败';
+                resultDiv.textContent = `错误: ${error.message}`;
+                resultDiv.style.color = 'red';
+
+            } finally {
+                // 隐藏加载状态
+                loadingDiv.style.display = 'none';
             }
         }
-
-        fetchDynamicContent();
     </script>
 </body>
 </html>
