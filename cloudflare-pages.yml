@@ -1,9 +1,17 @@
 version: 1
 build:
-  command:
-    - mkdir -p public
-    - echo "Generating worker.js..."
-    - echo "addEventListener('fetch', (event) => { event.respondWith(handleRequest(event.request)); });" > public/worker.js
-    - echo "async function handleRequest(request) { const dynamicContent = '${DYNAMIC_CONTENT}'; return new Response(dynamicContent, { headers: { 'Content-Type': 'text/plain' } }); }" >> public/worker.js
-  routes:
-    - '/api/dynamic-content/*'
+  command: |
+    # 创建 public 目录
+    mkdir -p public
+
+    # 输出 worker.js 文件的动态构建
+    echo "Generating worker.js..."
+    echo "addEventListener('fetch', (event) => { event.respondWith(handleRequest(event.request)); });" > public/worker.js
+    echo "async function handleRequest(request) { const dynamicContent = '${DYNAMIC_CONTENT}'; return new Response(dynamicContent, { headers: { 'Content-Type': 'text/plain' } }); }" >> public/worker.js
+
+  # 设置静态文件输出目录
+  output_directory: public
+
+routes:
+  # 配置路由，使动态请求匹配到 worker.js
+  - '/api/dynamic-content/*'
