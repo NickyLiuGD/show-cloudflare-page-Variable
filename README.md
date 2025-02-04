@@ -39,4 +39,6 @@ your-repo/
 ## 参数化获取page的环境变量的探索
 - 使用两极路由的传递环境变量名参数的方式，长时间的尝试都**没有找到合适的方法**。原因在于我们使用两级的路由时，比如\get_env\deepseek_api_key，cloudflare更倾向于将末端deepseek_api_key解释成一个函数入口deepseek_api_key.js，而不是一个代表环境变量名的参数。
 - 当前的**成功探索**是，使用一级路由\get_env确定函数入口\functions\get_env.js，然后在静态文件中使用POST的方法传递环境变量名进函数，从而获得环境变量值。
-- 多参数切换试验成功：只在index.html文件的第20行：`body: JSON.stringify({ envParam: "name" })  // 硬编码环境变量名`修改envParam的键值为想要的环境变量名即可。
+- 多参数切换试验成功：只在index.html文件的第20行：
+```body: JSON.stringify({ envParam: "name" })  // 硬编码环境变量名```
+修改envParam的键值为想要的环境变量名即可。
