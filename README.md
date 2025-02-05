@@ -44,3 +44,4 @@ your-repo/
   body: JSON.stringify({ envParam: "name" })  // 硬编码环境变量名
   ```
   修改envParam的键值为想要的环境变量名即可。
+  ### 封装成以变量名为参数，获得变量名对应的环境变量值返回的getEnvValue函数

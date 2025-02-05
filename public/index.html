@@ -4,36 +4,41 @@
     <title>显示环境变量</title>
 </head>
 <body>
-    <h1>环境变量 DEEPSEEK_API_KEY 的值：</h1>
-    <!-- 显示环境变量的容器 -->
+    <h1>环境变量值查询</h1>
     <div id="env-value" style="font-weight: bold; color: blue;"></div>
 
     <script>
-        // 页面加载完成后自动发送请求
-        window.onload = function() {
-            // 发起 POST 请求到 /get_env
-            fetch('/get_env', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ envParam: "name" })  // 硬编码环境变量名
-            })
-            .then(response => {
+        // 封装获取环境变量的函数
+        async function getEnvValue(envName) {
+            try {
+                const response = await fetch('/get_env', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ envParam: envName })
+                });
+
                 if (!response.ok) {
-                    throw new Error(`HTTP 错误 ${response.status}`);
+                    throw new Error(`HTTP错误 ${response.status}`);
                 }
-                return response.text();
-            })
-            .then(value => {
-                // 显示环境变量值
-                document.getElementById('env-value').textContent = value;
-            })
-            .catch(error => {
-                // 显示错误信息
-                document.getElementById('env-value').textContent = `无法获取环境变量: ${error.message}`;
-                document.getElementById('env-value').style.color = 'red';
-            });
+                
+                return await response.text();
+            } catch (error) {
+                throw new Error(`请求失败: ${error.message}`);
+            }
+        }
+
+        // 页面加载后自动执行
+        window.onload = async () => {
+            const displayElement = document.getElementById('env-value');
+            
+            try {
+                // 调用函数获取环境变量值（传入变量名）
+                const value = await getEnvValue("DEEPSEEK_API_KEY");
+                displayElement.textContent = value;
+            } catch (error) {
+                displayElement.textContent = error.message;
+                displayElement.style.color = 'red';
+            }
         };
     </script>
 </body>
