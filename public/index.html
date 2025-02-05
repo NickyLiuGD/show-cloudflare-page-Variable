@@ -7,32 +7,12 @@
     <h1>环境变量值查询</h1>
     <div id="env-value" style="font-weight: bold; color: blue;"></div>
 
+    <script src="funtions/env.js"></script>
     <script>
-        // 封装获取环境变量的函数
-        async function getEnvValue(envName) {
-            try {
-                const response = await fetch('/get_env', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ envParam: envName })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP错误 ${response.status}`);
-                }
-                
-                return await response.text();
-            } catch (error) {
-                throw new Error(`请求失败: ${error.message}`);
-            }
-        }
-
-        // 页面加载后自动执行
         window.onload = async () => {
             const displayElement = document.getElementById('env-value');
             
             try {
-                // 调用函数获取环境变量值（传入变量名）
                 const value = await getEnvValue("name");
                 displayElement.textContent = value;
             } catch (error) {
