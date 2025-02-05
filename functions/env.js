@@ -1,5 +1,5 @@
-// functions/env.js
-export async function getEnvValue(envName) {
+// env.js
+async function getEnvValue(envName) {
     try {
         const response = await fetch('/get_env', {
             method: 'POST',
