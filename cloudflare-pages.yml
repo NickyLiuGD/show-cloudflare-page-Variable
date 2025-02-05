@@ -1,0 +1,2 @@
+mime_types:
+  - {type: application/javascript, extensions: [js]}
