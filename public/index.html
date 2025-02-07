@@ -2,9 +2,22 @@
 <html>
 <head>
     <title>显示环境变量</title>
+    <style>
+        .menu-item {
+            cursor: pointer;
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
     <h1>环境变量值查询</h1>
+    <div id="menu" style="margin-bottom: 20px;"></div>
     <div id="env-value" style="font-weight: bold; color: blue;"></div>
 
     <script>
@@ -20,25 +33,40 @@
                 if (!response.ok) {
                     throw new Error(`HTTP错误 ${response.status}`);
                 }
-                
+
                 return await response.text();
             } catch (error) {
                 throw new Error(`请求失败: ${error.message}`);
             }
         }
 
+        // 创建菜单项
+        function createMenuItem(text) {
+            const item = document.createElement('div');
+            item.className = 'menu-item';
+            item.textContent = text;
+            item.onclick = async () => {
+                try {
+                    const value = await getEnvValue(text);
+                    document.getElementById('env-value').textContent = value;
+                    document.getElementById('env-value').style.color = 'blue';
+                } catch (error) {
+                    document.getElementById('env-value').textContent = error.message;
+                    document.getElementById('env-value').style.color = 'red';
+                }
+            };
+            return item;
+        }
+
         // 页面加载后自动执行
         window.onload = async () => {
-            const displayElement = document.getElementById('env-value');
-            
-            try {
-                // 调用函数获取环境变量值（传入变量名）
-                const value = await getEnvValue("NAME");
-                displayElement.textContent = value;
-            } catch (error) {
-                displayElement.textContent = error.message;
-                displayElement.style.color = 'red';
-            }
+            const menuElement = document.getElementById('menu');
+            // 创建并添加菜单项
+            const menuItems = ['deepseek_api_key', 'name'].map(createMenuItem);
+            menuElement.append(...menuItems);
+
+            // 可选：默认点击第一个菜单项
+            menuItems[0].click();
         };
     </script>
 </body>
