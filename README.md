@@ -1,4 +1,20 @@
 # show-cloudflare-page-Variable
+本项目属于一个page部署，目的是中首页中展示设置在cloudflare page中的环境变量。
+## 使用工作面管理版本分支的实践
+### 实践一    
+**准备工作面**
+- 设定`deploy`分支为默认的分支
+- 基于新的默认`deploy`分支创建新的`codespace`
+- **严格在刚刚新创建的`codespace`中修改代码**
+- 在其部署目标的page中设置：`分支控制`中的`生产分支`指针指向这个分支。 
+
+**更换工作面**
+- 在当前`codespace`中选择适当的提交后，创建新的命名为`pd`的分支。 
+- 设定`pd`分支为默认的分支
+- 将当前分支`deploy`按既有的版本规律重新命名，或者删除
+- 重新命名`pd`为`deploy`
+- 基于新的默认`deploy`分支创建新的`codespace`
+- **严格在刚刚新创建的`codespace`中修改代码**
 ## Page动态化的关键
 1. Cloudflare Pages 通过将函数放置在 /functions 目录中支持将其部署为 Cloudflare Workers。如果放置在输出目录（如 public），将被视为静态资产。
 2. 如果你的项目满足：
