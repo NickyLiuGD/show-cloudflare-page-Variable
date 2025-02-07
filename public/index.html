@@ -33,7 +33,7 @@
             
             try {
                 // 调用函数获取环境变量值（传入变量名）
-                const value = await getEnvValue("DEEPSEEK_API_KEY");
+                const value = await getEnvValue("NAME");
                 displayElement.textContent = value;
             } catch (error) {
                 displayElement.textContent = error.message;

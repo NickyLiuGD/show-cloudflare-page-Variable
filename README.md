@@ -1,6 +1,6 @@
 # show-cloudflare-page-Variable
 本项目属于一个page部署，目的是中首页中展示设置在cloudflare page中的环境变量。
-## 使用工作面管理版本分支的实践
+## 使用工作面管理Page代码版本分支的实践
 ### 实践一    
 **准备工作面**
 - 设定`deploy`分支为默认的分支
