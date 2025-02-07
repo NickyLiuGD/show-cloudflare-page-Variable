@@ -11,16 +11,17 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        #loadButton {
+        .button-group {
             margin: 20px;
+        }
+        .button-group button {
+            margin: 0 10px;
             padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        #loadButton:hover {
+        .button-group button:hover {
             background-color: #45a049;
         }
         #loading {
@@ -32,30 +33,49 @@
 </head>
 <body>
     <h1>动态内容示例</h1>
-    <button id="loadButton">加载动态内容</button>
+    <div class="button-group">
+        <button id="loadDeepseekButton">加载DEEPSEEK_API_KEY</button>
+        <button id="loadNameButton">加载NAME</button>
+    </div>
     <div id="dynamic-content"></div>
     <div id="loading">加载中...</div>
 
     <script>
-        const loadButton = document.getElementById('loadButton');
+        const loadDeepseekButton = document.getElementById('loadDeepseekButton');
+        const loadNameButton = document.getElementById('loadNameButton');
         const dynamicContentDiv = document.getElementById('dynamic-content');
         const loadingDiv = document.getElementById('loading');
 
-        async function fetchDynamicContent() {
+        async function fetchDeepseekContent() {
             try {
                 loadingDiv.style.display = 'block';
                 const response = await fetch('/api/dynamic-content');
                 const content = await response.text();
-                dynamicContentDiv.textContent = content;
+                dynamicContentDiv.textContent = `DEEPSEEK_API_KEY: ${content}`;
             } catch (error) {
-                console.error('获取动态内容失败:', error);
-                dynamicContentDiv.textContent = '动态内容加载失败';
+                console.error('获取DEEPSEEK_API_KEY失败:', error);
+                dynamicContentDiv.textContent = 'DEEPSEEK_API_KEY加载失败';
             } finally {
                 loadingDiv.style.display = 'none';
             }
         }
 
-        loadButton.addEventListener('click', fetchDynamicContent);
+        async function fetchNameContent() {
+            try {
+                loadingDiv.style.display = 'block';
+                const response = await fetch('/api/name-content');
+                const content = await response.text();
+                dynamicContentDiv.textContent = `NAME: ${content}`;
+            } catch (error) {
+                console.error('获取NAME失败:', error);
+                dynamicContentDiv.textContent = 'NAME加载失败';
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        loadDeepseekButton.addEventListener('click', fetchDeepseekContent);
+        loadNameButton.addEventListener('click', fetchNameContent);
     </script>
 </body>
 </html>

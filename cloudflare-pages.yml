@@ -4,3 +4,5 @@ routes:
     function: 'api/dynamic-content'
   - route: '/api/dynamic-content/*'
     function: 'api/dynamic-content'
+  - route: '/api/name-content'
+    function: 'api/dynamic-content'

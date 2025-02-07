@@ -1,18 +1,28 @@
-// 通过环境变量获取动态内容
 export async function onRequest(context) {
-    try {
-      // 从环境变量读取内容
-      const dynamicContent = context.env.DEEPSEEK_API_KEY || "Default dynamic content";
-      
+  try {
+      const url = new URL(context.request.url);
+      const path = url.pathname;
+
+      let dynamicContent;
+
+      switch (path) {
+          case '/api/dynamic-content':
+              dynamicContent = context.env.DEEPSEEK_API_KEY || "Default DEEPSEEK_API_KEY";
+              break;
+          case '/api/name-content':
+              dynamicContent = context.env.NAME || "Default NAME";
+              break;
+          default:
+              return new Response('Not Found', { status: 404 });
+      }
+
       return new Response(dynamicContent, {
-        headers: {
-          "Content-Type": "text/plain; charset=UTF-8",
-          // 可选：解决CORS问题
-          "Access-Control-Allow-Origin": "*"
-        }
+          headers: {
+              "Content-Type": "text/plain; charset=UTF-8",
+              "Access-Control-Allow-Origin": "*"
+          }
       });
-    } catch (err) {
+  } catch (err) {
       return new Response("Failed to load dynamic content", { status: 500 });
-    }
   }
-  
+}
