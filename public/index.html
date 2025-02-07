@@ -4,24 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>动态内容示例</title>
+    <style>
+        #dynamic-content {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #loadButton {
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #loadButton:hover {
+            background-color: #45a049;
+        }
+        #loading {
+            display: none;
+            margin: 10px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <h1>动态内容示例</h1>
+    <button id="loadButton">加载动态内容</button>
     <div id="dynamic-content"></div>
+    <div id="loading">加载中...</div>
 
     <script>
+        const loadButton = document.getElementById('loadButton');
+        const dynamicContentDiv = document.getElementById('dynamic-content');
+        const loadingDiv = document.getElementById('loading');
+
         async function fetchDynamicContent() {
             try {
+                loadingDiv.style.display = 'block';
                 const response = await fetch('/api/dynamic-content');
                 const content = await response.text();
-                document.getElementById('dynamic-content').textContent = content;
+                dynamicContentDiv.textContent = content;
             } catch (error) {
                 console.error('获取动态内容失败:', error);
-                document.getElementById('dynamic-content').textContent = '动态内容加载失败';
+                dynamicContentDiv.textContent = '动态内容加载失败';
+            } finally {
+                loadingDiv.style.display = 'none';
             }
         }
 
-        fetchDynamicContent();
+        loadButton.addEventListener('click', fetchDynamicContent);
     </script>
 </body>
 </html>
