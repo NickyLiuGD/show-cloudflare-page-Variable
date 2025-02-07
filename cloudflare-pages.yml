@@ -1,8 +1,11 @@
 version: 1
 routes:
-  - route: '/'
-    function: 'api/dynamic-content'
-  - route: '/api/dynamic-content/*'
+  # 优先级 1：精确匹配 API 路径
+  - route: '/api/dynamic-content'
     function: 'api/dynamic-content'
   - route: '/api/name-content'
     function: 'api/dynamic-content'
+
+  # 优先级 2：其他请求返回静态页面
+  - route: '/*'
+    static: true  # 确保静态文件请求不会干扰 API 路由
