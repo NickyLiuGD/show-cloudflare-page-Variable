@@ -6,7 +6,7 @@ export async function onRequest(context) {
       let dynamicContent;
       switch (pathname) {
           case '/api/dynamic-content':
-              dynamicContent = context.env.DEEPSEEK_API_KEY || "Default DEEPSEEK_API_KEY";
+              dynamicContent = context.env.NAME || "Default DEEPSEEK_API_KEY";
               console.log("DEEPSEEK_API_KEY:", context.env.DEEPSEEK_API_KEY); // 调试日志
               break;
           case '/api/name-content':
