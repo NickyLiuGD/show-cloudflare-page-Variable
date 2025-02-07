@@ -50,7 +50,7 @@ your-repo/
 ```
 - `"include": ["/*"]` 告诉Cloudflare Pages，默认情况下，所有路径都应首先尝试匹配静态文件。
 - `"exclude": ["/api/*"]` 告诉Cloudflare Pages，特定路径（以 `/api/` 开头）应直接由API函数处理，不寻找静态文件。
-## 路由
+## 使用路由方法调用
 </api/dynamic-content>
 ## 参数化获取page的环境变量的探索
 - 使用两极路由的传递环境变量名参数的方式，长时间的尝试都**没有找到合适的方法**。原因在于我们使用两级的路由时，比如\get_env\deepseek_api_key，cloudflare更倾向于将末端deepseek_api_key解释成一个函数入口deepseek_api_key.js，而不是一个代表环境变量名的参数。
@@ -60,4 +60,5 @@ your-repo/
   body: JSON.stringify({ envParam: "name" })  // 硬编码环境变量名
   ```
   修改envParam的键值为想要的环境变量名即可。
-  ### 封装成以变量名为参数，获得变量名对应的环境变量值返回的getEnvValue函数
+
+- 成功实现**可选择地展示不同参数**
