@@ -10,7 +10,7 @@ export async function onRequest(context) {
               console.log("DEEPSEEK_API_KEY:", context.env.DEEPSEEK_API_KEY); // 调试日志
               break;
           case '/api/name-content':
-              dynamicContent = context.env.NAME || "Default NAME";
+              dynamicContent = context.env.DEEPSEEK_API_KEY || "Default NAME";
               console.log("NAME:", context.env.NAME); // 调试日志
               break;
           default:
