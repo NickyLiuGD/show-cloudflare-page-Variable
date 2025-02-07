@@ -45,7 +45,7 @@
         const loadNameButton = document.getElementById('loadNameButton');
         const dynamicContentDiv = document.getElementById('dynamic-content');
         const loadingDiv = document.getElementById('loading');
-
+    
         async function fetchDeepseekContent() {
             try {
                 loadingDiv.style.display = 'block';
@@ -59,7 +59,7 @@
                 loadingDiv.style.display = 'none';
             }
         }
-
+    
         async function fetchNameContent() {
             try {
                 loadingDiv.style.display = 'block';
@@ -83,9 +83,10 @@
                 loadingDiv.style.display = 'none';
             }
         }
-
+    
         loadDeepseekButton.addEventListener('click', fetchDeepseekContent);
         loadNameButton.addEventListener('click', fetchNameContent);
     </script>
+    
 </body>
 </html>
