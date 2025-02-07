@@ -1,4 +1,5 @@
 # show-cloudflare-page-Variable
+**本项目属于一个page部署**
 ## Page动态化的关键
 1. Cloudflare Pages 通过将函数放置在 /functions 目录中支持将其部署为 Cloudflare Workers。如果放置在输出目录（如 public），将被视为静态资产。
 2. 如果你的项目满足：
