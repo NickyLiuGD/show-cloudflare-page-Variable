@@ -65,7 +65,17 @@
                 loadingDiv.style.display = 'block';
                 const response = await fetch('/api/name-content');
                 const content = await response.text();
-                dynamicContentDiv.textContent = `NAME: ${content}`;
+                
+                // 检查内容是否为HTML
+                if (content.includes('</html>')) {
+                    // 如果是HTML内容，尝试提取有用的部分
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(content, 'text/html');
+                    const nameValue = doc.querySelector('h1') ? doc.querySelector('h1').textContent : 'NAME值未找到';
+                    dynamicContentDiv.textContent = `NAME: ${nameValue}`;
+                } else {
+                    dynamicContentDiv.textContent = `NAME: ${content}`;
+                }
             } catch (error) {
                 console.error('获取NAME失败:', error);
                 dynamicContentDiv.textContent = 'NAME加载失败';
